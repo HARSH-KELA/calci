@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE_NAME = 'scientific_calculator'
-        GITHUB_REPO_URL = 'https://github.com/AbhishekRauthan909/scientific_calculator.git'
-        MAVEN_HOME = '/opt/homebrew/opt/maven'
+        DOCKER_IMAGE_NAME = 'calci'
+        GITHUB_REPO_URL = 'https://github.com/HARSH-KELA/calci.git'
+        MAVEN_HOME = '/opt/homebrew/bin/mvn'
 
     }
     stages {
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    sh 'docker build -t scientific_calculator .'
+                    sh 'docker build -t calci .'
                 }
             }
         }
@@ -36,8 +36,8 @@ pipeline {
                 script {
                     // Tag and push Docker image to Docker Hub
                     docker.withRegistry('', 'DockerHubCred') {
-                        sh "docker tag scientific_calculator abhishekrauthan2023106/scientific_calculator:latest"
-                        sh "docker push abhishekrauthan2023106/scientific_calculator:latest"
+                        sh "docker tag calci harshkela/calci:latest"
+                        sh "docker push harshkela/calci:latest"
                     }
                 }
             }
