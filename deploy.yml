@@ -1,0 +1,24 @@
+---
+- name: Pull Docker Image from Docker Hub
+  hosts: localhost
+  remote_user: harshkela
+  become: false
+  tasks:
+    - name: Pull Docker Image
+      docker_image:
+        name: "calci"
+        source: pull
+      register: docker_pull_result
+
+    - name: Display Docker Pull Result
+      debug:
+        var: docker_pull_result
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Running container
+      shell: /usr/local/bin/docker run -it -d --name calci calci
